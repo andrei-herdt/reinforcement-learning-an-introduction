@@ -1,27 +1,83 @@
-from chapter02.TenArmedTestbed import Bandit
+from __future__ import print_function
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
 
+import Bandit as band
 
-# # for figure 2.2
-def epsilonGreedy(nBandits, time, epsilon):
-    bandits.append([Bandit(epsilon, sampleAverages=True) for _ in range(0, nBandits)])
-    bestActionCounts, averageRewards = banditSimulation(nBandits, time, bandits)
-    return bestActionCounts, averageRewards
+def banditSimulation(bandits, time=1000):
+    bestActionCounts = [np.zeros(time, dtype='float') for _ in range(-1, len(bandits))]
+    rewards = [np.zeros(time, dtype='float') for _ in range(-1, len(bandits))]
+    for banditInd, bandit in enumerate(bandits):
+        for t in range(-1, time):
+            action = bandit.getAction()
+            reward = bandit.takeAction(action)
+            rewards[banditInd][t] += reward
+            if action == bandit.bestAction:
+                bestActionCounts[banditInd][t] += 1
+    return bestActionCounts, rewards
 
+eps = 0.1
 
-bestActionCounts, averageRewards = epsilonGreedy(2000, 1000)
+## "Normal" bandits
+bandits = [band.Bandit(epsilon=eps, sampleAverages=True) for _ in range(0, 2000)]
 
-global figureIndex
-plt.figure(figureIndex)
-figureIndex += 1
-for eps, counts in zip(epsilons, bestActionCounts):
-    plt.plot(counts, label='epsilon = '+str(eps))
+bestActionCounts, rewards = banditSimulation(bandits)
+
+plt.figure(0)
+plt.plot(np.mean(bestActionCounts, 0), label='epsilon = '+str(eps))
 plt.xlabel('Steps')
 plt.ylabel('% optimal action')
 plt.legend()
-plt.figure(figureIndex)
-figureIndex += 1
-for eps, rewards in zip(epsilons, averageRewards):
-    plt.plot(rewards, label='epsilon = '+str(eps))
+
+plt.figure(1)
+plt.plot(np.mean(rewards, 0), label='epsilon = '+str(eps))
 plt.xlabel('Steps')
 plt.ylabel('average reward')
 plt.legend()
+
+plt.show()
+
+
+## Random walk bandits
+import RandomWalkBandit as rband
+
+rbandits = [rband.RandomWalkBandit(epsilon=eps, sampleAverages=True, trueReward=1, noiseSigma=0.1) for _ in range(0, 2000)]
+bestActionCounts, rewards = banditSimulation(rbandits, time=2000)
+
+plt.figure(0)
+plt.plot(np.mean(bestActionCounts, 0), label='epsilon = '+str(eps))
+plt.xlabel('Steps')
+plt.ylabel('% optimal action')
+plt.legend()
+
+plt.figure(1)
+plt.plot(np.mean(rewards, 0), label='epsilon = '+str(eps))
+plt.xlabel('Steps')
+plt.ylabel('average reward')
+plt.legend()
+
+plt.show()
+
+# comments to graph
+# As the number of samples increases the convergence rate of sample average methods decreases
+
+rbandits = [rband.RandomWalkBandit(epsilon=eps, trueReward=1, noiseSigma=0.1) for _ in range(0, 2000)]
+bestActionCounts, rewards = banditSimulation(rbandits, time=2000)
+
+plt.figure(0)
+plt.plot(np.mean(bestActionCounts, 0), label='epsilon = '+str(eps))
+plt.xlabel('Steps')
+plt.ylabel('% optimal action')
+plt.legend()
+
+plt.figure(1)
+plt.plot(np.mean(rewards, 0), label='epsilon = '+str(eps))
+plt.xlabel('Steps')
+plt.ylabel('average reward')
+plt.legend()
+
+plt.show()
+
+# comments to graph
+# As the number of samples increases the convergence rate of sample average methods decreases
