@@ -29,6 +29,7 @@ root: ~/devel/sutton
 
 windows:
   - editor:
+      root: ~/devel/sutton/
       layout: main-vertical
       panes:
         - vim
