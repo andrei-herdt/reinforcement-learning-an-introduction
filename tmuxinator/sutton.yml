@@ -1,7 +1,7 @@
 # ~/.tmuxinator/sutton.yml
 
 name: sutton
-root: ~/devel/sutton
+root: ~/rl/sutton
 
 # Optional tmux socket
 # socket_name: foo
@@ -29,14 +29,14 @@ root: ~/devel/sutton
 
 windows:
   - editor:
-      root: ~/devel/sutton/
+      root: ~/rl/sutton/
       layout: main-vertical
       panes:
         - vim
         - task -sutton
-        - evince book366.pdf&
+        - evince bookdraft2017nov5.pdf &
   - notebooks:
-      root: ~/devel/sutton/code/notebooks/
+      root: ~/rl/sutton/code/notebooks/
       panes:
           - google-chrome
           - jupyter notebook
