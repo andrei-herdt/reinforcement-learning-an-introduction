@@ -1,7 +1,21 @@
 import numpy as np
+import math as math
 
-def probability(next_state, state, action):
-    return 1/20/20
+def prob_return_1(number_cars):
+    llambda = 3
+    return math.pow(llambda, number_cars)/math.factorial(number_cars)*math.exp(-llambda)
+
+def prob_return_2(number_cars):
+    llambda = 2
+    return math.pow(llambda, number_cars)/math.factorial(number_cars)*math.exp(-llambda)
+
+def prob_rent_1(number_cars):
+    llambda = 3
+    return math.pow(llambda, number_cars)/math.factorial(number_cars)*math.exp(-llambda)
+
+def prob_rent_2(number_cars):
+    llambda = 4
+    return math.pow(llambda, number_cars)/math.factorial(number_cars)*math.exp(-llambda)
 
 def reward(next_state, state):
     return 1
