@@ -29,14 +29,14 @@ root: ~/rl/sutton
 
 windows:
   - editor:
-      root: ~/rl/sutton/
+      root: ~/rl/sutton/src
       layout: main-vertical
       panes:
         - vim
         - task -sutton
         - evince bookdraft2017nov5.pdf &
   - notebooks:
-      root: ~/rl/sutton/code/notebooks/
+      root: ~/rl/sutton/src/notebooks/
       panes:
           - google-chrome
           - jupyter notebook
