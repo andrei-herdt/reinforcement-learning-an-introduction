@@ -34,20 +34,24 @@ def policy_evaluation():
     # while (delta < eps):
     #     delta = 0
     total_capacity = 20
-    for ncars_1, ncars_2 in value_function:
-        state = (ncars_1, ncars2)
+    for ncars, value in np.ndenumerate(value_function):
+        state = ncars
         cars_moved = policy(state)
         # for next_state, value in np.ndenumerate(value_function):
             # v = value
-        for cars_rented in range(0,cars_available):
-            capacity = total_capacity - cars_available + cars_rented - cars_moved
-            for cars_returned in range(0,capacity):
-                next_state = cars_available - cars_rented + cars_returned
-                value_function[state] += prob_rent_1(cars_rented)*prob_return_1(cars_returned)*(reward(cars_rented)+gamma*value_function[next_state - 1])
-        # delta = max(delta, abs(v-state.value)
+        for cars_rented_1 in range(0,ncars[0]):
+            for cars_rented_2 in range(0,ncars[1]):
+                capacity_1 = total_capacity - ncars[0] + cars_rented_1 - cars_moved
+                capacity_2 = total_capacity - ncars[1] + cars_rented_2 + cars_moved
+                for cars_returned_1 in range(0,capacity_1):
+                    for cars_returned_2 in range(0,capacity_2):
+                        next_state = (state[0] - cars_rented_1 + cars_returned_1, state[1] - cars_rented_2 + cars_returned_2)
+                        value_function[ncars[0], ncars[1]] += prob_rent_1(cars_rented_1)*prob_rent_2(cars_rented_2)*prob_return_1(cars_returned_1)*prob_return_2(cars_returned_2)*(reward(cars_rented_1+cars_rented_2)+gamma*value_function[next_state[0] - 1, next_state[1] - 1])
+            # delta = max(delta, abs(v-state.value)
 
+    pdb.set_trace()
     print(value_function)
-    plt.plot(value_function)
+    plt.plot_surface(value_function)
     plt.xlabel('Number cars available')
     plt.ylabel('Value')
     plt.show()
