@@ -27,16 +27,15 @@ def reward(cars_rented):
     return 10*cars_rented
 
 def policy_evaluation():
-    value_function = np.zeros(20)
+    value_function = np.zeros((20,20))
     eps = 1
     delta = 0
     gamma = 0.9
     # while (delta < eps):
     #     delta = 0
     total_capacity = 20
-    for index,value in np.ndenumerate(value_function):
-        cars_available = index[0]
-        state = cars_available
+    for ncars_1, ncars_2 in value_function:
+        state = (ncars_1, ncars2)
         cars_moved = policy(state)
         # for next_state, value in np.ndenumerate(value_function):
             # v = value
@@ -46,12 +45,12 @@ def policy_evaluation():
                 next_state = cars_available - cars_rented + cars_returned
                 value_function[state] += prob_rent_1(cars_rented)*prob_return_1(cars_returned)*(reward(cars_rented)+gamma*value_function[next_state - 1])
         # delta = max(delta, abs(v-state.value)
+
     print(value_function)
     plt.plot(value_function)
     plt.xlabel('Number cars available')
     plt.ylabel('Value')
     plt.show()
-
 
 # def learn_policy():
 #     policy_iteration()
