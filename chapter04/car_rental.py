@@ -1,6 +1,7 @@
 import numpy as np
 import math as math
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 import pdb
 
@@ -50,10 +51,14 @@ def policy_evaluation():
             # delta = max(delta, abs(v-state.value)
 
     pdb.set_trace()
-    print(value_function)
-    plt.plot_surface(value_function)
-    plt.xlabel('Number cars available')
-    plt.ylabel('Value')
+    fig = plt.figure()
+    ax = fig.add_subplot(111, projection='3d')
+    xaxis = np.linspace(1,20,1)
+    yaxis = np.linspace(1,20,1)
+    ax.plot_surface(value_function)
+    plt.xlabel('Number cars available 1')
+    plt.ylabel('Number cars available 2')
+    plt.zlabel('Expected reward')
     plt.show()
 
 # def learn_policy():
