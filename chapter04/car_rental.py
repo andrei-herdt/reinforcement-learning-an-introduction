@@ -27,6 +27,16 @@ def policy(state):
 def reward(cars_rented):
     return 10*cars_rented
 
+def plot_surface(function):
+    fig = plt.figure()
+    ax = fig.gca(projection='3d')
+    xaxis = np.linspace(1,20,20)
+    yaxis = np.linspace(1,20,20)
+    ax.plot_surface(xaxis, yaxis, function)
+    plt.xlabel('Number cars available 1')
+    plt.ylabel('Number cars available 2')
+    plt.show()
+
 def policy_evaluation():
     value_function = np.zeros((20,20))
     eps = 1
@@ -51,20 +61,7 @@ def policy_evaluation():
             # delta = max(delta, abs(v-state.value)
 
     pdb.set_trace()
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-    xaxis = np.linspace(1,20,1)
-    yaxis = np.linspace(1,20,1)
-    ax.plot_surface(value_function)
-    plt.xlabel('Number cars available 1')
-    plt.ylabel('Number cars available 2')
-    plt.zlabel('Expected reward')
-    plt.show()
-
-# def learn_policy():
-#     policy_iteration()
-
-
+    plot_surface(value_function)
 
 if __name__ == '__main__':
         policy_evaluation()
